@@ -52,7 +52,7 @@ namespace AolPhones.Managers.Implementations
             return OrderDB;
         }
 
-        public Order MakeOrder(string userName, int cartNumber)
+        public Order MakeOrder(string userName, string cartNumber)
         {
             var user = userManager.Get(userName);
             var cart = cartManager.Get(cartNumber);
@@ -66,15 +66,16 @@ namespace AolPhones.Managers.Implementations
                 if (user.Wallet > cart.TotalPrice)
                 {
                     user.Wallet -= cart.TotalPrice;
-                    var order = new Order(OrderDB.Count + 1, GenerateReferenceNumber(), userName, DateTime.Now, cartNumber, Status.Initiated, false);
+                    var order = new Order(OrderDB.Count + 1, GenerateReferenceNumber(), userName, DateTime.Now, cartNumber , Status.Initiated, false);
                     OrderDB.Add(order);
                     foreach (var product in cart.Products)
                     {
                         var prod = productManager.Get(product.Key);
                         prod.Quantity -= product.Value;
-
+                        
                     }
                     cart.IsDeleted = true;
+
                     return order;
                 }
                 Console.WriteLine("insufficient fund");

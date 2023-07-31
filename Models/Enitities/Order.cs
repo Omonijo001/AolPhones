@@ -12,16 +12,16 @@ namespace AolPhones.Models.Enitities
         public string ReferenceNumber;
         public string UserName;
         public DateTime Date;
-        public int CartId;
+        public string CartNumber;
         public Status Status;
 
 
-        public Order(int id, string referenceNumber, string userName, DateTime date, int cartId, Status status, bool isDeleted): base(id,isDeleted)
+        public Order(int id, string referenceNumber, string userName, DateTime date, string cartNumber, Status status, bool isDeleted): base(id,isDeleted)
         {
             ReferenceNumber = referenceNumber;
             UserName = userName;
             Date = date;
-            CartId = cartId;
+            CartNumber = cartNumber;
             Status = status;
 
         }

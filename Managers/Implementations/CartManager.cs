@@ -36,12 +36,24 @@ namespace AolPhones.Managers.Implementations
             return null;
         }
 
+        public Cart Get(string cartNumber)
+        {
+            foreach (var item in CartDB)
+            {
+                if (item.CartNumber == cartNumber && item.IsDeleted == false)
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
         public List<Cart> GetCarts(string userName)
         {
             var list = new List<Cart>();
             foreach (var item in CartDB)
             {
-                if(item.CustomerUserName == userName)
+                if(item.CustomerUserName == userName && item.IsDeleted == false)
                 {
                     list.Add(item);
                 }

@@ -95,9 +95,17 @@ namespace AolPhones.Menus
                     Console.WriteLine($"enter {item.ReferenceNumber} to deliver order to {item.UserName}");
                 }
                   var refNo = Console.ReadLine();
-                 orderManager.DeliverOrder(refNo);
-                Console.WriteLine($"{item.ReferenceNumber} delivered successfully");
-                RiderMain();
+                if(refNo != item.ReferenceNumber)
+                {
+                    Console.WriteLine("Invalid Reference Number!!Unable to register deliver order");
+                }
+                else
+                {
+                    orderManager.DeliverOrder(refNo);
+                    Console.WriteLine($"{item.ReferenceNumber} delivered successfully");
+                    RiderMain();
+                }
+                 
             }
         }
         public void ViewCustomerDetails()

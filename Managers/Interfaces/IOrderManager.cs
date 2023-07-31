@@ -9,7 +9,7 @@ namespace AolPhones.Managers.Interfaces
 {
     public interface IOrderManager
     {
-        public Order MakeOrder(string userName, int CartNumber);
+        public Order MakeOrder(string userName, string cartNumber);
         public Order Get(string refNumber);
         public List<Order> GetAll();
         public void ReceiveOrder(string refNumber);

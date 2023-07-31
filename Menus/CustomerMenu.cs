@@ -153,7 +153,7 @@ namespace AolPhones.Menus
                 Console.WriteLine($"enter {item.CartNumber} to make order the cart items");
                 
             }
-            int cartNumber = int.Parse(Console.ReadLine());
+            string cartNumber = Console.ReadLine();
             var order = orderManager.MakeOrder(userName, cartNumber);
             if(order == null)
             {

@@ -14,7 +14,9 @@ namespace AolPhones.Managers.Implementations
         public static List<Brand> BrandDB = new List<Brand>()
         {
             new Brand(1,"Infinix",false),
-            new Brand(2,"Samsung", false)
+            new Brand(2,"Samsung", false),
+            new Brand(3,"Apple", false)
+            
         };
 
         public Brand Create(string name)

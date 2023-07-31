@@ -1,5 +1,6 @@
 ﻿using AolPhones.Managers.Implementations;
 using AolPhones.Managers.Interfaces;
+using AolPhones.Models.Enums;
 using AolPhones.Models.Enitities;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace AolPhones.Menus
         IRiderManager riderManager = new RiderManager();
         IOrderManager orderManager = new OrderManager();
         IManagerManager managerManager = new ManagerManager();
+        IUserManager userManager = new UserManager();
         public void ManagerMain()
         {
             Console.WriteLine("Enter 1 to Create Product\nEnter 2 to view all Rider\nEnter 3 to view all Product\nEnter 4 to view all Product Available\nEnter 5 to view order initiated\nEnter 6 to view Delivered Order\nEnter 7 to Register Brand\nEnter 8 to Logout");
@@ -74,10 +76,6 @@ namespace AolPhones.Menus
         {
             Console.Write("Enter the name of the product: ");
             string name = Console.ReadLine();
-            Console.Write("Enter the CameraMP of the product: ");
-            string cameraMP = Console.ReadLine();
-            Console.Write("Enter the color of the product: ");
-            string color = Console.ReadLine();
             Console.Write("Enter the ram capacity of the product: ");
             int ram = int.Parse(Console.ReadLine());
             Console.Write("Enter the rom capacity of the product: ");
@@ -94,7 +92,7 @@ namespace AolPhones.Menus
                 Console.Write($"Enter {brand.Name} to select the product brand: ");
             }
             string brandName = Console.ReadLine();
-            var product = productManager.Create(name,cameraMP,color,ram,rom,batteryMAH,price,quantity,brandName);
+            var product = productManager.Create(name,ram,rom,batteryMAH,price,quantity,brandName);
             if(product != null)
             {
                 Console.WriteLine($"{name} created successfully");
@@ -160,25 +158,30 @@ namespace AolPhones.Menus
                     Console.WriteLine($"Enter {item.ReferenceNumber} after  the order as been made from {item.UserName} to pack order");
                 }
                 string refNo = Console.ReadLine();
-                orderManager.ParkOrder(refNo);
-                Console.WriteLine($"{item.ReferenceNumber} packed, order available for pick up");
+                if(refNo != item.ReferenceNumber)
+                {
+                    Console.WriteLine("Invalid Reference Number");
+                }
+                else
+                {
+                    orderManager.ParkOrder(refNo);
+                    Console.WriteLine($"{item.ReferenceNumber} packed, order available for pick up");
+                }
+                
             }
             
         }
         public void ViewDeliveredOrder()
         {
-            var order = orderManager.GetAll();
-            List<Order> delivered = new List<Order>();
-            foreach (var item in order)
+            var orders = orderManager.GetAll();
+            foreach (var order in orders)
             {
-                if (item.Status == Models.Enums.Status.Delivered)
+                if(order.Status == Status.Delivered)
                 {
-                    Console.WriteLine($"Enter {item.ReferenceNumber} from {item.UserName} after been delivered ");
+                    var user = userManager.Get(order.UserName);
+                    Console.WriteLine($"OrderRefrence Number: {order.ReferenceNumber}\tUsername: {order.UserName}\tAddress: {user.Address}\tPhoneNumber: {user.PhoneNumber}");
                 }
             }
-            string refNum = Console.ReadLine();
-            orderManager.ReceiveOrder(refNum);
-            Console.WriteLine("Delivered Successfully");
         }
 
         public void Logout()
